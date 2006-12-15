@@ -383,9 +383,13 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 
 			getLog().debug("Processing: " + targetFileName);
 			File destinationFile = new File(destination,targetFileName);
-			
-			getLog().info("Copy "+project.getFile()+" to "+destinationFile);
-			copyFileIfModified(artifact.getFile(), destinationFile);
+			if ( "provided".equals(artifact.getScope()) || "test".equals(artifact.getScope())) {
+				getLog().info("Skipping "+artifactFile+" Scope "+artifact.getScope());
+				
+			} else {
+				getLog().info("Copy "+artifactFile+" to "+destinationFile);
+				copyFileIfModified(artifact.getFile(), destinationFile);
+			}
 		}
 
 	}
