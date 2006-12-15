@@ -429,6 +429,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 					throw new MojoFailureException("Artifact File is null ");
 				}
 				getLog().info("Unpacking "+artifactFile+" to "+destinationDir);
+                                deleteAll(destinationDir); 
 				destinationDir.mkdirs();
 				unpack(artifactFile, destinationDir,"war");
 			} else if ("war".equals(packaging)) {
@@ -526,6 +527,20 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 	private String getProjectId() {
 		return project.getGroupId()+":"+project.getArtifactId()+":"+project.getPackaging()+":"+project.getVersion();
 	}
+
+        public void deleteAll(File dir) {
+              if ( dir.isDirectory() ) {
+                 File[] files = dir.listFiles();
+                 for ( int i = 0;i < files.length; i++ ) {
+		      if ( files[i].isDirectory() ) {
+                         deleteAll(files[i]);
+                      } else {
+                         files[i].delete();
+                      }
+                 }
+              } 
+	      dir.delete();
+        }
 
 	public void buildExplodedWebapp(File webappDirectory)
 			throws MojoExecutionException, MojoFailureException {
