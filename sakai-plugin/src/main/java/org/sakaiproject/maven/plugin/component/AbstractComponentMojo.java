@@ -454,6 +454,8 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 					deployProjectArtifact(new File(deployDir,"shared/lib/"),true);				
 				} else if ( "common".equals(deployTarget) ) {
 					deployProjectArtifact(new File(deployDir,"common/lib/"),true);
+				} else if ( "server".equals(deployTarget) ) {
+					deployProjectArtifact(new File(deployDir,"server/lib/"),true);
 				} else {
 				   getLog().info("No deployment specification -- skipping "+getProjectId());
 				}
@@ -470,6 +472,10 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 					deployArtifacts(artifacts, destinationDir);					
 				} else if ( "common".equals(deployTarget) ) {
 					File destinationDir = new File(deployDir, "common/lib/");
+					destinationDir.mkdirs();
+					deployArtifacts(artifacts, destinationDir);
+				} else if ( "server".equals(deployTarget) ) {
+					File destinationDir = new File(deployDir, "server/lib/");
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else {
