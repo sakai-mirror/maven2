@@ -443,7 +443,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 						"Deploying " + project.getGroupId() + ":"
 								+ project.getArtifactId() + ":"
 								+ project.getPackaging() + " as a webapp");
-				deployProjectArtifact(new File(deployDir,"webapps/"),false);
+				deployProjectArtifact(new File(deployDir,"webapps/"),false,true);
 				
 			} else if ("jar".equals(packaging) ) {
 				// UseCase: jar, marked with a property
@@ -451,11 +451,11 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 				Properties p = project.getProperties();
 				String deployTarget = p.getProperty("deploy.target");
 				if ( "shared".equals(deployTarget) ) {
-					deployProjectArtifact(new File(deployDir,"shared/lib/"),true);				
+					deployProjectArtifact(new File(deployDir,"shared/lib/"),true,false);				
 				} else if ( "common".equals(deployTarget) ) {
-					deployProjectArtifact(new File(deployDir,"common/lib/"),true);
+					deployProjectArtifact(new File(deployDir,"common/lib/"),true,false);
 				} else if ( "server".equals(deployTarget) ) {
-					deployProjectArtifact(new File(deployDir,"server/lib/"),true);
+					deployProjectArtifact(new File(deployDir,"server/lib/"),true,false);
 				} else {
 				   getLog().info("No deployment specification -- skipping "+getProjectId());
 				}
@@ -501,15 +501,19 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 
 	}
 
-	private void deployProjectArtifact(File destination, boolean withVersion) throws MojoFailureException, IOException, AbstractArtifactResolutionException {
+	private void deployProjectArtifact(File destination, boolean withVersion, boolean deleteStub) throws MojoFailureException, IOException, AbstractArtifactResolutionException {
 		Artifact artifact = project.getArtifact();
 		String fileName = null;
+		String stubName = null;
 		if ( withVersion ) {
 			fileName = project.getArtifactId() + "-"+project.getVersion()+"." + project.getPackaging();
+                        stubName = project.getArtifactId() + "-"+project.getVersion();
 		} else {
 			fileName = project.getArtifactId() + "." + project.getPackaging();
+                        stubName = project.getArtifactId();
 		}
 		File destinationFile = new File(destination, fileName);
+		File stubFile = new File(destination, stubName);
 		Set artifacts = project.getArtifacts();
 		getLog().info("Found "+artifacts.size()+" artifacts");
 		for ( Iterator i = artifacts.iterator(); i.hasNext(); ) {
@@ -531,6 +535,9 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 		}
 		getLog().info("Copy "+artifactFile+" to "+destinationFile);
 		destinationFile.getParentFile().mkdirs();
+                if ( deleteStub && stubFile.exists() ) {
+			deleteAll(stubFile);
+                }
 		copyFileIfModified(artifactFile, destinationFile);
 	}
 
