@@ -240,5 +240,13 @@ public class ComponentDeployMojoTest
         // house keeping
         expectedJarFile.delete();
     }
+    
+    protected void configureMojo( ComponentDeployMojo mojo, List filters, File classesDir, File webAppSource,
+            File webAppDir, File deployDir, MavenProjectBasicStub project )
+    throws Exception
+    {
+    	super.configureMojo(mojo, filters, classesDir, webAppSource, webAppDir, deployDir, project);
+        mojo.setDeployDirectory( deployDir );
+    }
 
 }

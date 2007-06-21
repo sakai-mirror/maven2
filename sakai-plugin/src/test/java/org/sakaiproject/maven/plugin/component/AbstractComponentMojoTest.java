@@ -54,7 +54,6 @@ public abstract class AbstractComponentMojoTest
         mojo.setClassesDirectory( classesDir );
         mojo.setWarSourceDirectory( webAppSource );
         mojo.setWebappDirectory( webAppDir );
-        mojo.setDeployDirectory( deployDir );
         mojo.setProject( project );
     }
 
