@@ -17,7 +17,7 @@
               <test>org.apache.maven.plugins:maven-surefire-plugin:test</test>
               <package>org.sakaiproject.maven.plugins:sakai:component</package>
               <install>org.apache.maven.plugins:maven-install-plugin:install</install>
-              <deploy>org.apache.maven.plugins:maven-war-plugin:deploy</deploy>
+              <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
             </phases>
             <!-- END SNIPPET: war-lifecycle -->
           </lifecycle>
@@ -29,7 +29,8 @@
       <role-hint>sakai-component</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
       <configuration>
-        <type>war</type>
+        <type>sakai-component</type>
+        <extension>war</extension>
         <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>false</addedToClasspath>
