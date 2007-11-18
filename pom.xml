@@ -6,6 +6,12 @@
   <artifactId>plugins</artifactId>
   <version>SNAPSHOT</version>
   <packaging>pom</packaging>
+  <scm>
+    <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</connection>
+    <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</developerConnection>
+    <url>https://source.sakaiproject.org/svn/sakai/maven2</url>
+  </scm>
+
  <modules>
      <module>sakai-plugin</module>
  </modules>
