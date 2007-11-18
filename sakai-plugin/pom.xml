@@ -23,7 +23,7 @@ under the License.
   <artifactId>sakai</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Sakai Component Plugin</name>
-  <version>M2</version>
+  <version>SNAPSHOT</version>
   <prerequisites>
     <maven>2.0.1</maven>
   </prerequisites>
