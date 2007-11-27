@@ -10,6 +10,15 @@
     <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</developerConnection>
     <url>https://source.sakaiproject.org/svn/sakai/maven2</url>
   </scm>
+  <distributionManagement>
+   <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>local</id>
+      <name>Local</name>
+      <url>file:///tmp/maven2</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
 
  <modules>
      <module>sakai-plugin</module>

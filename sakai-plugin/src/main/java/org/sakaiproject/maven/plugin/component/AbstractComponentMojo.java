@@ -280,6 +280,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 		this.containerConfigXML = containerConfigXML;
 	}
 
+
 	/**
 	 * Returns a string array of the excludes to be used when assembling/copying
 	 * the war.
