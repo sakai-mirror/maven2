@@ -19,18 +19,32 @@ package org.sakaiproject.maven.plugin.component;
  * under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.AbstractArtifactResolutionException;
-import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
-import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -46,26 +60,6 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.InterpolationFilterReader;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 public abstract class AbstractComponentMojo extends AbstractMojo {
 	/**
@@ -711,7 +705,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 		if (process) {
 			File file = artifact.getFile();
 			try {
-				unpack(file, tempLocation);
+				unpack(file, tempLocation,false);
 			} catch (NoSuchArchiverException e) {
 				this.getLog().info(
 						"Skip unpacking dependency file with unknown extension: "
@@ -730,11 +724,11 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 	 * @param location
 	 *            Location where to put the unpacked files.
 	 */
-	private void unpack(File file, File location)
+	private void unpack(File file, File location,boolean overwrite)
 			throws MojoExecutionException, NoSuchArchiverException {
 		String archiveExt = FileUtils.getExtension(file.getAbsolutePath())
 				.toLowerCase();
-		unpack(file,location,archiveExt);
+		unpack(file,location,archiveExt,overwrite);
 	}
 	/**
 	 * Unpacks an archive with a given type
@@ -744,7 +738,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 	 * @throws MojoExecutionException
 	 * @throws NoSuchArchiverException
 	 */
-	protected void unpack(File file, File location, String archiveExt)
+	protected void unpack(File file, File location, String archiveExt, boolean overwrite)
 		throws MojoExecutionException, NoSuchArchiverException {
 
 
@@ -752,7 +746,7 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 			UnArchiver unArchiver = archiverManager.getUnArchiver(archiveExt);
 			unArchiver.setSourceFile(file);
 			unArchiver.setDestDirectory(location);
-			unArchiver.setOverwrite(true);
+			unArchiver.setOverwrite(overwrite);
 			unArchiver.extract();
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error unpacking file: " + file

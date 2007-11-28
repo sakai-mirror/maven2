@@ -67,3 +67,16 @@ Sakai Component Plugin
  
   * {{{http://maven.apache.org/guides/mini/guide-archive-configuration.html}Exclusion of Maven Descriptors}}
  
+Sakai Configuration Plugin 
+
+ The Sakai Configuration Plugin is plugin that packages a project in zip form and then deploys it to the configation area of the container.
+ It conencts to the <packaging>sakai-configuration</packaging> packaging type
+
+ This plugin only packages the build output and deploys it into the target unpacked. It does not overwrite files that already exist in the target space.
+ 
+* Goals Overview
+
+ * {{{war-mojo.html}sakai-configuration:zip}} is the default goal invoked during the package phase for projects with a package type of zip.
+  
+ * {{{deploy-mojo.html}sakai-configuration:deploy}} deploys the configuration into the app server.
+ 

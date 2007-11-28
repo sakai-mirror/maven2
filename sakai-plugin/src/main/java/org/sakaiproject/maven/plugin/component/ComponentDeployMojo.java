@@ -22,9 +22,7 @@ package org.sakaiproject.maven.plugin.component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -68,6 +66,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 		defaultLocatioMap.setProperty("shared/lib", "shared/lib/");
 		defaultLocatioMap.setProperty("server/lib", "server/lib/");
 		defaultLocatioMap.setProperty("common/lib", "common/lib/");
+		defaultLocatioMap.setProperty("configuration", "/");
 	}
 	
 
@@ -141,7 +140,40 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 						"Unpacking " + artifactFile + " to " + destinationDir);
 				deleteAll(destinationDir);
 				destinationDir.mkdirs();
-				unpack(artifactFile, destinationDir, "war");
+				unpack(artifactFile, destinationDir, "war", false);
+			}
+			else if ("sakai-configuration".equals(packaging)) {
+				// UseCase: Sakai configuration in a pom
+				// deploy to component and unpack as a
+				getLog().info(
+						"Deploying " + project.getGroupId() + ":"
+								+ project.getArtifactId() + ":"
+								+ project.getPackaging()
+								+ " as an unpacked configuration");
+				File destinationDir = new File(deployDir, getDeploySubDir("configuration"));
+				Artifact artifact = project.getArtifact();
+				if (artifact == null) {
+					getLog().error(
+							"No Artifact found in project " + getProjectId());
+					throw new MojoFailureException(
+							"No Artifact found in project");
+				}
+				File artifactFile = artifact.getFile();
+				if (artifactFile == null) {
+					artifactResolver.resolve(artifact, remoteRepositories,
+							artifactRepository);
+					artifactFile = artifact.getFile();
+				}
+				if (artifactFile == null) {
+					getLog().error(
+							"Artifact File is null for " + getProjectId());
+					throw new MojoFailureException("Artifact File is null ");
+				}
+				getLog().info(
+						"Unpacking " + artifactFile + " to " + destinationDir);
+				destinationDir.mkdirs();
+				// we use a zip unarchiver
+				unpack(artifactFile, destinationDir, "zip" , false);
 			} else if ("war".equals(packaging)) {
 				// UseCase: war webapp
 				// deploy to webapps but dont unpack

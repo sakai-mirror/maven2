@@ -27,15 +27,12 @@ import java.util.List;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.plugin.testing.stubs.ArtifactStub;
-import org.sakaiproject.maven.plugin.component.stub.JarArtifactStub;
 import org.sakaiproject.maven.plugin.component.stub.MavenProjectBasicStub;
 import org.sakaiproject.maven.plugin.component.stub.ResourceStub;
 import org.sakaiproject.maven.plugin.component.stub.SimpleWarArtifactStub;
+import org.sakaiproject.maven.plugin.component.stub.SimpleConfigurationArtifactStub;
 
 public class ComponentDeployMojoTest
     extends AbstractComponentMojoTest
@@ -161,12 +158,50 @@ public class ComponentDeployMojoTest
     /**
      * @throws Exception
      */
+    public void testConfigurationDeploy()
+        throws Exception
+    {
+        // setup test data
+        String testId = "SimpleDeployConfiguration";
+        MavenProjectBasicStub project = new MavenProjectBasicStub();
+        project.setArtifact(new SimpleConfigurationArtifactStub(getBasedir()));
+        project.setPackaging("sakai-configuration");
+        File webAppSource = createWebAppSource( testId );
+        File classesDir = createClassesDir( testId, false );
+        File webAppResource = new File( getTestDirectory(), testId + "-resources" );
+        File webAppDirectory = new File( getTestDirectory(), testId );
+        File deployDirectory = new File( getTestDirectory(), testId + "-tomcat" );
+        File sampleResource = new File( webAppResource, "pix/panis_na.jpg" );
+        ResourceStub[] resources = new ResourceStub[]{new ResourceStub()};
+
+        createFile( sampleResource );
+
+        assertTrue("sampeResource not found",sampleResource.exists());
+      
+        // configure mojo
+        resources[0].setDirectory( webAppResource.getAbsolutePath() );
+        this.configureMojo( mojo, new LinkedList(), classesDir, webAppSource, webAppDirectory, deployDirectory, project );
+        setVariableValueToObject( mojo, "webResources", resources );
+        mojo.execute();
+
+        // validate operation
+        File expectedWarFile = new File( deployDirectory, "/org/sample/company/test.jsp" );
+
+        assertTrue( "Output File Not Found: " + expectedWarFile.toString(), expectedWarFile.exists() );
+        
+        // house keeping
+       // expectedWarFile.delete();
+    }
+    /**
+     * @throws Exception
+     */
     public void xtestSharedDeployJar()
         throws Exception
     {
         // setup test data
         String testId = "SimpleDeployShared";
         MavenProjectBasicStub project = new MavenProjectBasicStub();
+        project.setArtifact(artifactFactory.createArtifact(project.getGroupId(), project.getArtifactId(), project.getVersion(), null, "jar"));
         Artifact artifact  = artifactFactory.createArtifact("org.apache.maven","maven-core","2.0",null,"jar");
         HashSet<Artifact> dependencySet = new HashSet<Artifact>();        
         dependencySet.add(artifact);
@@ -189,6 +224,7 @@ public class ComponentDeployMojoTest
         resources[0].setDirectory( webAppResource.getAbsolutePath() );
         this.configureMojo( mojo, new LinkedList(), classesDir, webAppSource, webAppDirectory, deployDirectory, project );
         setVariableValueToObject( mojo, "webResources", resources );
+        setVariableValueToObject(mojo, "remoteRepositories", new ArrayList());
         mojo.execute();
 
         // validate operation
@@ -208,6 +244,7 @@ public class ComponentDeployMojoTest
         // setup test data
         String testId = "SimpleDeployCommon";
         MavenProjectBasicStub project = new MavenProjectBasicStub();
+        project.setArtifact(artifactFactory.createArtifact(project.getGroupId(), project.getArtifactId(), project.getVersion(), null, "jar"));
         Artifact artifact  = artifactFactory.createArtifact("org.apache.maven","maven-core","2.0",null,"jar");
         HashSet<Artifact> dependencySet = new HashSet<Artifact>();        
         dependencySet.add(artifact);
@@ -230,6 +267,7 @@ public class ComponentDeployMojoTest
         resources[0].setDirectory( webAppResource.getAbsolutePath() );
         this.configureMojo( mojo, new LinkedList(), classesDir, webAppSource, webAppDirectory, deployDirectory, project );
         setVariableValueToObject( mojo, "webResources", resources );
+        setVariableValueToObject(mojo, "remoteRepositories", new ArrayList());
         mojo.execute();
 
         // validate operation
