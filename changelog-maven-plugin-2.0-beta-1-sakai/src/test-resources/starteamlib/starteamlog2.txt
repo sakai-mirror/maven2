@@ -1,0 +1,91 @@
+Folder: Maven  (working dir: D:\Artin\projects\Artin\timemission_maven)
+History for: project.properties
+Description: 
+Locked by: 
+Status: Current
+----------------------------
+Revision: 2 View: Playground Branch Revision: 1.1
+Author: Najvarek, Jan Date: 04-6-30 15:12:02 GMT+02:00
+test revision
+
+----------------------------
+Revision: 1 View: Playground Branch Revision: 1.0
+Author: Najvarek, Jan Date: 04-6-30 15:11:36 GMT+02:00
+=============================================================================
+
+Folder: lib  (working dir: D:\Artin\projects\Artin\timemission_maven\lib)
+Folder: interclient  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\interclient)
+Folder: jars  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\interclient\jars)
+History for: interclient.jar
+Description: 
+Locked by: 
+Status: Current
+----------------------------
+Revision: 1 View: Playground Branch Revision: 1.0
+Author: Najvarek, Jan Date: 04-6-28 9:57:29 GMT+02:00
+=============================================================================
+
+Folder: j2ee  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\j2ee)
+Folder: jars  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\j2ee\jars)
+Folder: jfreechart  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\jfreechart)
+Folder: jars  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\jfreechart\jars)
+Folder: mail  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\mail)
+Folder: jars  (working dir: D:\Artin\projects\Artin\timemission_maven\lib\mail\jars)
+Folder: src  (working dir: D:\Artin\projects\Artin\timemission_maven\src)
+Folder: conf  (working dir: D:\Artin\projects\Artin\timemission_maven\src\conf)
+Folder: java  (working dir: D:\Artin\projects\Artin\timemission_maven\src\java)
+Folder: cz  (working dir: D:\Artin\projects\Artin\timemission_maven\src\java\cz)
+Folder: artin  (working dir: D:\Artin\projects\Artin\timemission_maven\src\java\cz\artin)
+Folder: timemission  (working dir: D:\Artin\projects\Artin\timemission_maven\src\java\cz\artin\timemission)
+History for: AssignedProject.java
+Description: 
+Locked by: 
+Status: Current
+----------------------------
+Revision: 1 View: Playground Branch Revision: 1.0
+Author: Najvarek, Jan Date: 04-6-28 9:57:38 GMT+02:00
+=============================================================================
+
+History for: AssignedProjectViewDef.java
+Description: 
+Locked by: 
+Status: Current
+----------------------------
+Revision: 1 View: Playground Branch Revision: 1.0
+Author: Najvarek, Jan Date: 04-6-28 9:57:48 GMT+02:00
+=============================================================================
+
+History for: Base32.java
+Description: 
+Locked by: 
+Status: Current
+----------------------------
+Revision: 1 View: Playground Branch Revision: 1.0
+Author: Najvarek, Jan Date: 04-6-28 9:57:52 GMT+02:00
+=============================================================================
+
+Folder: test  (working dir: D:\Artin\projects\Artin\timemission_maven\src\test)
+Folder: cz  (working dir: D:\Artin\projects\Artin\timemission_maven\src\test\cz)
+Folder: artin  (working dir: D:\Artin\projects\Artin\timemission_maven\src\test\cz\artin)
+Folder: timemission  (working dir: D:\Artin\projects\Artin\timemission_maven\src\test\cz\artin\timemission)
+Folder: webapp  (working dir: D:\Artin\projects\Artin\timemission_maven\src\webapp)
+Folder: jsp  (working dir: D:\Artin\projects\Artin\timemission_maven\src\webapp\jsp)
+Folder: target  (working dir: D:\Artin\projects\Artin\timemission_maven\target)
+Folder: classes  (working dir: D:\Artin\projects\Artin\timemission_maven\target\classes)
+Folder: cz  (working dir: D:\Artin\projects\Artin\timemission_maven\target\classes\cz)
+Folder: artin  (working dir: D:\Artin\projects\Artin\timemission_maven\target\classes\cz\artin)
+Folder: timemission  (working dir: D:\Artin\projects\Artin\timemission_maven\target\classes\cz\artin\timemission)
+Folder: test-classes  (working dir: D:\Artin\projects\Artin\timemission_maven\target\test-classes)
+Folder: cz  (working dir: D:\Artin\projects\Artin\timemission_maven\target\test-classes\cz)
+Folder: artin  (working dir: D:\Artin\projects\Artin\timemission_maven\target\test-classes\cz\artin)
+Folder: timemission  (working dir: D:\Artin\projects\Artin\timemission_maven\target\test-classes\cz\artin\timemission)
+Folder: test-reports  (working dir: D:\Artin\projects\Artin\timemission_maven\target\test-reports)
+Folder: tm  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm)
+Folder: jsp  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\jsp)
+Folder: WEB-INF  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF)
+Folder: classes  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\classes)
+Folder: cz  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\classes\cz)
+Folder: artin  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\classes\cz\artin)
+Folder: timemission  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\classes\cz\artin\timemission)
+Folder: lib  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\lib)
+Folder: tld  (working dir: D:\Artin\projects\Artin\timemission_maven\target\tm\WEB-INF\tld)
