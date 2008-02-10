@@ -8,7 +8,7 @@
   <artifactId>changelog-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Maven Changelog Plug-in</name>
-  <version>2.0-beta-1-sakai</version>
+  <version>2.0-beta-2-sakai-SNAPSHOT</version>
   <description>Produce SCM changelog reports.</description>
   <developers>
     <developer>
@@ -117,10 +117,4 @@
       <version>1.0-alpha-4</version>
     </dependency>
   </dependencies>
-
-  <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/mojo/scm/tags/plugins-1.0</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/plugins-1.0</developerConnection>
-    <url>http://svn.mojo.codehaus.org/tags/plugins-1.0</url>
-  </scm>
 </project>
