@@ -28,120 +28,121 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class AbstractComponentMojoTest
-    extends AbstractMojoTestCase
-{ 
+public abstract class AbstractComponentMojoTest extends AbstractMojoTestCase
+{
 
-    protected abstract File getTestDirectory()
-        throws Exception;
+	protected abstract File getTestDirectory() throws Exception;
 
-    /**
-     * initialize required parameters
-     *
-     * @param mojo
-     * @param filters
-     * @param classesDir
-     * @param webAppSource
-     * @param webAppDir
-     * @param project
-     * @throws Exception
-     */
-    protected void configureMojo( AbstractComponentMojo mojo, List filters, File classesDir, File webAppSource,
-                                  File webAppDir, File deployDir, MavenProjectBasicStub project )
-        throws Exception
-    {
-        setVariableValueToObject( mojo, "filters", filters );
-        mojo.setClassesDirectory( classesDir );
-        mojo.setWarSourceDirectory( webAppSource );
-        mojo.setWebappDirectory( webAppDir );
-        mojo.setProject( project );
-    }
+	/**
+	 * initialize required parameters
+	 * 
+	 * @param mojo
+	 * @param filters
+	 * @param classesDir
+	 * @param webAppSource
+	 * @param webAppDir
+	 * @param project
+	 * @throws Exception
+	 */
+	protected void configureMojo(AbstractComponentMojo mojo, List filters,
+			File classesDir, File webAppSource, File webAppDir, File deployDir,
+			MavenProjectBasicStub project) throws Exception
+	{
+		setVariableValueToObject(mojo, "filters", filters);
+		mojo.setClassesDirectory(classesDir);
+		mojo.setWarSourceDirectory(webAppSource);
+		mojo.setWebappDirectory(webAppDir);
+		mojo.setProject(project);
+	}
 
-    /**
-     * create an isolated xml dir
-     *
-     * @param id
-     * @param xmlFiles
-     * @return
-     * @throws Exception
-     */
-    protected File createXMLConfigDir( String id, String[] xmlFiles )
-        throws Exception
-    {
-        File xmlConfigDir = new File( getTestDirectory(), "/" + id + "-test-data/xml-config" );
-        File XMLFile;
+	/**
+	 * create an isolated xml dir
+	 * 
+	 * @param id
+	 * @param xmlFiles
+	 * @return
+	 * @throws Exception
+	 */
+	protected File createXMLConfigDir(String id, String[] xmlFiles) throws Exception
+	{
+		File xmlConfigDir = new File(getTestDirectory(), "/" + id
+				+ "-test-data/xml-config");
+		File XMLFile;
 
-        createDir( xmlConfigDir );
+		createDir(xmlConfigDir);
 
-        if ( xmlFiles != null )
-        {
-            Iterator iterator = Arrays.asList( xmlFiles ).iterator();
-            while ( iterator.hasNext() )
-            {
-                XMLFile = new File( xmlConfigDir, (String) iterator.next() );
-                createFile( XMLFile );
-            }
-        }
+		if (xmlFiles != null)
+		{
+			Iterator iterator = Arrays.asList(xmlFiles).iterator();
+			while (iterator.hasNext())
+			{
+				XMLFile = new File(xmlConfigDir, (String) iterator.next());
+				createFile(XMLFile);
+			}
+		}
 
-        return xmlConfigDir;
-    }
+		return xmlConfigDir;
+	}
 
-    /**
-     * create an isolated web source with a sample jsp file
-     *
-     * @param id
-     * @return
-     * @throws Exception
-     */
-    protected File createWebAppSource( String id )
-        throws Exception
-    {
-        File webAppSource = new File( getTestDirectory(), "/" + id + "-test-data/source" );
-        File simpleJSP = new File( webAppSource, "pansit.jsp" );
-        File jspFile = new File( webAppSource, "org/web/app/last-exile.jsp" );
+	/**
+	 * create an isolated web source with a sample jsp file
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	protected File createWebAppSource(String id) throws Exception
+	{
+		File webAppSource = new File(getTestDirectory(), "/" + id + "-test-data/source");
+		File simpleJSP = new File(webAppSource, "pansit.jsp");
+		File jspFile = new File(webAppSource, "org/web/app/last-exile.jsp");
 
-        createFile( simpleJSP );
-        createFile( jspFile );
-        return webAppSource;
-    }
+		createFile(simpleJSP);
+		createFile(jspFile);
+		return webAppSource;
+	}
 
-    /**
-     * create a class directory with or without a sample class
-     *
-     * @param id
-     * @param empty
-     * @return
-     * @throws Exception
-     */
-    protected File createClassesDir( String id, boolean empty )
-        throws Exception
-    {
-        File classesDir = new File( getTestDirectory() + "/" + id + "-test-data/classes/" );
+	protected File getBaseSampleDir(String id) throws Exception
+	{
+		File webAppSource = new File(getTestDirectory(), "/" + id + "-test-data");
+		return webAppSource;
+	}
 
-        createDir( classesDir );
+	/**
+	 * create a class directory with or without a sample class
+	 * 
+	 * @param id
+	 * @param empty
+	 * @return
+	 * @throws Exception
+	 */
+	protected File createClassesDir(String id, boolean empty) throws Exception
+	{
+		File classesDir = new File(getTestDirectory() + "/" + id + "-test-data/classes/");
 
-        if ( !empty )
-        {
-            createFile( new File( classesDir + "/sample-servlet.class" ) );
-        }
+		createDir(classesDir);
 
-        return classesDir;
-    }
+		if (!empty)
+		{
+			createFile(new File(classesDir + "/sample-servlet.class"));
+		}
 
-    protected void createDir( File dir )
-    {
-        if ( !dir.exists() )
-        {
-            assertTrue( "can not create test dir: " + dir.toString(), dir.mkdirs() );
-        }
-    }
+		return classesDir;
+	}
 
-    protected void createFile( File testFile )
-        throws Exception
-    {
-        createDir( testFile.getParentFile() );
-        FileUtils.fileWrite( testFile.toString(), testFile.toString() );
+	protected void createDir(File dir)
+	{
+		if (!dir.exists())
+		{
+			assertTrue("can not create test dir: " + dir.toString(), dir.mkdirs());
+		}
+	}
 
-        assertTrue( "could not create file: " + testFile, testFile.exists() );
-    }
+	protected void createFile(File testFile) throws Exception
+	{
+		createDir(testFile.getParentFile());
+		FileUtils.fileWrite(testFile.toString(), testFile.toString());
+
+		assertTrue("could not create file: " + testFile, testFile.exists());
+	}
 }

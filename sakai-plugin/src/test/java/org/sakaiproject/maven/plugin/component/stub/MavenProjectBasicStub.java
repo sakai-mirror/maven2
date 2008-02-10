@@ -44,6 +44,7 @@ public class MavenProjectBasicStub
     {
         super( new ModelStub() );
         properties = new Properties();
+        
     }
 
     public Set getArtifacts()

@@ -21,6 +21,7 @@ package org.sakaiproject.maven.plugin.component;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -46,7 +47,29 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	 * @required
 	 */
 	private File deployDirectory;
+
+	/**
+	 * A map to define the destination where items are unpacked.
+	 * 
+	 * @parameter expression="${sakai.app.server}"
+	 */
+	private String appServer = null;
+
+	private Properties locationMap;
+
+	private static Properties defaultLocatioMap;
 	
+	static {
+		defaultLocatioMap = new Properties();
+		defaultLocatioMap.setProperty("components", "components/");
+		defaultLocatioMap.setProperty("webapps", "webapps/");
+		defaultLocatioMap.setProperty("shared/lib", "shared/lib/");
+		defaultLocatioMap.setProperty("server/lib", "server/lib/");
+		defaultLocatioMap.setProperty("common/lib", "common/lib/");
+		defaultLocatioMap.setProperty("configuration", "/");
+	}
+	
+
 	public File getDeployDirectory() {
 		return deployDirectory;
 	}
@@ -54,6 +77,17 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	public void setDeployDirectory(File deployDirectory) {
 		this.deployDirectory = deployDirectory;
 	}
+	
+	public String getAppServer()
+	{
+		return appServer;
+	}
+
+	public void setAppServer(String appServer)
+	{
+		this.appServer = appServer;
+	}
+
 	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		deployToContainer();
@@ -81,7 +115,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 								+ project.getArtifactId() + ":"
 								+ project.getPackaging()
 								+ " as an unpacked component");
-				File destination = new File(deployDir, "components/");
+				File destination = new File(deployDir, getDeploySubDir("components"));
 				String fileName = project.getArtifactId();
 				File destinationDir = new File(destination, fileName);
 				Artifact artifact = project.getArtifact();
@@ -106,7 +140,40 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 						"Unpacking " + artifactFile + " to " + destinationDir);
 				deleteAll(destinationDir);
 				destinationDir.mkdirs();
-				unpack(artifactFile, destinationDir, "war");
+				unpack(artifactFile, destinationDir, "war", false);
+			}
+			else if ("sakai-configuration".equals(packaging)) {
+				// UseCase: Sakai configuration in a pom
+				// deploy to component and unpack as a
+				getLog().info(
+						"Deploying " + project.getGroupId() + ":"
+								+ project.getArtifactId() + ":"
+								+ project.getPackaging()
+								+ " as an unpacked configuration");
+				File destinationDir = new File(deployDir, getDeploySubDir("configuration"));
+				Artifact artifact = project.getArtifact();
+				if (artifact == null) {
+					getLog().error(
+							"No Artifact found in project " + getProjectId());
+					throw new MojoFailureException(
+							"No Artifact found in project");
+				}
+				File artifactFile = artifact.getFile();
+				if (artifactFile == null) {
+					artifactResolver.resolve(artifact, remoteRepositories,
+							artifactRepository);
+					artifactFile = artifact.getFile();
+				}
+				if (artifactFile == null) {
+					getLog().error(
+							"Artifact File is null for " + getProjectId());
+					throw new MojoFailureException("Artifact File is null ");
+				}
+				getLog().info(
+						"Unpacking " + artifactFile + " to " + destinationDir);
+				destinationDir.mkdirs();
+				// we use a zip unarchiver
+				unpack(artifactFile, destinationDir, "zip" , false);
 			} else if ("war".equals(packaging)) {
 				// UseCase: war webapp
 				// deploy to webapps but dont unpack
@@ -114,7 +181,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 						"Deploying " + project.getGroupId() + ":"
 								+ project.getArtifactId() + ":"
 								+ project.getPackaging() + " as a webapp");
-				deployProjectArtifact(new File(deployDir, "webapps/"), false,
+				deployProjectArtifact(new File(deployDir,  getDeploySubDir("webapps")), false,
 						true);
 
 			} else if ("jar".equals(packaging)) {
@@ -123,13 +190,13 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 				Properties p = project.getProperties();
 				String deployTarget = p.getProperty("deploy.target");
 				if ("shared".equals(deployTarget)) {
-					deployProjectArtifact(new File(deployDir, "shared/lib/"),
+					deployProjectArtifact(new File(deployDir, getDeploySubDir("shared/lib")),
 							true, false);
 				} else if ("common".equals(deployTarget)) {
-					deployProjectArtifact(new File(deployDir, "common/lib/"),
+					deployProjectArtifact(new File(deployDir, getDeploySubDir("common/lib")),
 							true, false);
 				} else if ("server".equals(deployTarget)) {
-					deployProjectArtifact(new File(deployDir, "server/lib/"),
+					deployProjectArtifact(new File(deployDir, getDeploySubDir("server/lib")),
 							true, false);
 				} else {
 					getLog().info(
@@ -139,20 +206,18 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 			} else if ("pom".equals(packaging)) {
 				// UseCase: pom, marked with a property
 				// deploy the contents
-				getLog().info("Packaging is POM");
 				Properties p = project.getProperties();
 				String deployTarget = p.getProperty("deploy.target");
-				getLog().info("Deploy Taarget is " + deployTarget);
 				if ("shared".equals(deployTarget)) {
-					File destinationDir = new File(deployDir, "shared/lib/");
+					File destinationDir = new File(deployDir, getDeploySubDir("shared/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else if ("common".equals(deployTarget)) {
-					File destinationDir = new File(deployDir, "common/lib/");
+					File destinationDir = new File(deployDir, getDeploySubDir("common/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else if ("server".equals(deployTarget)) {
-					File destinationDir = new File(deployDir, "server/lib/");
+					File destinationDir = new File(deployDir, getDeploySubDir("server/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else {
@@ -179,6 +244,44 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 					+ ex.getMessage());
 		}
 
+	}
+
+	/**
+	 * @param string
+	 * @param string2
+	 * @return
+	 */
+	private String getDeploySubDir(String key)
+	{
+		
+		if ( locationMap == null ) {
+			if ( appServer != null  ) {
+				try
+				{
+					InputStream in = getClass().getClassLoader().getResourceAsStream(
+							"deploy." + appServer + ".properties");
+					Properties p = new Properties();
+					p.load(in);
+					in.close();
+					locationMap = p;
+				}
+				catch (Exception ex)
+				{
+					this.getLog().warn("No Config for appserver "+appServer+" cause:"+ex.getMessage());
+				}
+			}
+			if ( locationMap == null ) {
+				locationMap = defaultLocatioMap;
+			}
+		}
+		String deploySubDir = locationMap.getProperty(key);
+		if ( deploySubDir == null || deploySubDir.trim().length() == 0 ) {
+			deploySubDir = defaultLocatioMap.getProperty(key);
+		}
+		if ( !deploySubDir.endsWith("/") ) {
+			deploySubDir = deploySubDir + "/";
+		}
+		return deploySubDir;
 	}
 
 	protected void deployArtifacts(Set artifacts, File destination)
