@@ -22,7 +22,6 @@
 
  <modules>
      <module>sakai-plugin</module>
-     <module>changelog-maven-plugin-2.0-beta-1-sakai</module>
  </modules>
 
   <dependencies>
