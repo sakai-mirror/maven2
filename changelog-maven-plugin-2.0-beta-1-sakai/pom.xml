@@ -1,4 +1,4 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>mojo</artifactId>
     <groupId>org.codehaus.mojo</groupId>
@@ -15,7 +15,7 @@
       <id>kaz</id>
       <name>Pete Kazmier</name>
       <email>pete-apache-dev@kazmier.com</email>
-      <organization></organization>
+      <organization />
       <roles>
         <role>Documentation</role>
         <role>Java Developer</role>
@@ -25,7 +25,7 @@
       <id>epugh</id>
       <name>Eric Pugh</name>
       <email>epugh@opensourceconnections.com</email>
-      <organization></organization>
+      <organization />
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -34,7 +34,7 @@
       <id>evenisse</id>
       <name>Emmanuel Venisse</name>
       <email>emmanuel@venisse.net</email>
-      <organization></organization>
+      <organization />
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -117,4 +117,10 @@
       <version>1.0-alpha-4</version>
     </dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/mojo/scm/tags/plugins-1.0</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/plugins-1.0</developerConnection>
+    <url>http://svn.mojo.codehaus.org/tags/plugins-1.0</url>
+  </scm>
 </project>
