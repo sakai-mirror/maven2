@@ -54,6 +54,14 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	 * @parameter expression="${sakai.app.server}"
 	 */
 	private String appServer = null;
+	
+	/**
+	 * The ID of the artifact to use when deploying.
+	 * 
+	 * @parameter expression="${project.artifactId}"
+	 * @required
+	 */
+	private String deployId = null;
 
 	private Properties locationMap;
 
@@ -68,7 +76,6 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 		defaultLocatioMap.setProperty("common/lib", "common/lib/");
 		defaultLocatioMap.setProperty("configuration", "/");
 	}
-	
 
 	public File getDeployDirectory() {
 		return deployDirectory;
@@ -87,8 +94,17 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	{
 		this.appServer = appServer;
 	}
-
 	
+	public String getDeployId()
+	{
+		return deployId;
+	}
+
+	public void setDeployId(String deployId)
+	{
+		this.deployId = deployId;
+	}
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		deployToContainer();
 	}
@@ -336,12 +352,12 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 		String fileName = null;
 		String stubName = null;
 		if (withVersion) {
-			fileName = project.getArtifactId() + "-" + project.getVersion()
+			fileName = getDeployId() + "-" + project.getVersion()
 					+ "." + project.getPackaging();
-			stubName = project.getArtifactId() + "-" + project.getVersion();
+			stubName = getDeployId() + "-" + project.getVersion();
 		} else {
-			fileName = project.getArtifactId() + "." + project.getPackaging();
-			stubName = project.getArtifactId();
+			fileName = getDeployId() + "." + project.getPackaging();
+			stubName = getDeployId();
 		}
 		File destinationFile = new File(destination, fileName);
 		File stubFile = new File(destination, stubName);

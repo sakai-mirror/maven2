@@ -18,7 +18,8 @@ under the License.
 -->
 
 <project>
-  <name>saka-plugin-test</name>
+  <name>sakai-plugin-test</name>
+  <artifactId>sakai-plugin-test</artifactId>
   <properties>
      <maven.tomcat.home>tomcat</maven.tomcat.home>
   </properties>

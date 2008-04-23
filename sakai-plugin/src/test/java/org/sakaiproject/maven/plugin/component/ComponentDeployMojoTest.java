@@ -285,6 +285,7 @@ public class ComponentDeployMojoTest
     {
     	super.configureMojo(mojo, filters, classesDir, webAppSource, webAppDir, deployDir, project);
         mojo.setDeployDirectory( deployDir );
+        mojo.setDeployId(project.getArtifactId());
     }
 
 }
