@@ -236,6 +236,16 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 					File destinationDir = new File(deployDir, getDeploySubDir("server/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
+				} else if ( "tomcat-overlay".equals(deployTarget)) {
+				        String cleanTargetPaths = p.getProperty("clean.targets");
+				        String[] cleanPaths = cleanTargetPaths.split(";");
+				        for ( String pathToClean : cleanPaths ) {
+	                                  File destinationDir = new File(deployDir, getDeploySubDir(pathToClean));
+	                                  getLog().info("Deleting "+destinationDir);
+				          deleteAll(destinationDir);
+				        }
+				        deployDir.mkdirs();
+				        deployOverlay(artifacts, deployDir);
 				} else {
 					getLog().info(
 							"No deployment specification -- skipping "
@@ -294,15 +304,18 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 		if ( deploySubDir == null || deploySubDir.trim().length() == 0 ) {
 			deploySubDir = defaultLocatioMap.getProperty(key);
 		}
+		if (deploySubDir == null ) {
+		  deploySubDir = key;
+		}
 		if ( !deploySubDir.endsWith("/") ) {
 			deploySubDir = deploySubDir + "/";
 		}
 		return deploySubDir;
 	}
 
-	protected void deployArtifacts(Set artifacts, File destination)
+	protected void deployOverlay(Set artifacts, File destination)
 			throws IOException, MojoFailureException,
-			AbstractArtifactResolutionException {
+			AbstractArtifactResolutionException, MojoExecutionException, NoSuchArchiverException {
 		for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
 			Artifact artifact = (Artifact) iter.next();
 			if (artifact == null) {
@@ -326,24 +339,57 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 						"Artifact File is null for dependency "
 								+ artifact.getId() + " in " + getProjectId());
 			}
-			String targetFileName = getDefaultFinalName(artifact);
-
-			getLog().debug("Processing: " + targetFileName);
-			File destinationFile = new File(destination, targetFileName);
-			if ("provided".equals(artifact.getScope())
-					|| "test".equals(artifact.getScope())) {
-				getLog().info(
-						"Skipping " + artifactFile + " Scope "
-								+ artifact.getScope());
-
-			} else {
-				getLog()
-						.info("Copy " + artifactFile + " to " + destinationFile);
-				copyFileIfModified(artifact.getFile(), destinationFile);
-			}
+                        getLog().debug("Processing: " + artifact.getId());
+                        if ( !"test".equals(artifact.getScope()) ) {
+                          unpack(artifact.getFile(), destination, artifact.getType(),true);
+                        }
 		}
 
 	}
+        protected void deployArtifacts(Set artifacts, File destination)
+        throws IOException, MojoFailureException,
+        AbstractArtifactResolutionException {
+for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
+        Artifact artifact = (Artifact) iter.next();
+        if (artifact == null) {
+                getLog().error(
+                                "Null Artifact found, sould never happen, in artifacts for project "
+                                                + getProjectId());
+                throw new MojoFailureException(
+                                "Null Artifact found, sould never happen, in artifacts for project ");
+        }
+        File artifactFile = artifact.getFile();
+        if (artifactFile == null) {
+                artifactResolver.resolve(artifact, remoteRepositories,
+                                artifactRepository);
+                artifactFile = artifact.getFile();
+        }
+        if (artifactFile == null) {
+                getLog().error(
+                                "Artifact File is null for dependency "
+                                                + artifact.getId() + " in " + getProjectId());
+                throw new MojoFailureException(
+                                "Artifact File is null for dependency "
+                                                + artifact.getId() + " in " + getProjectId());
+        }
+        String targetFileName = getDefaultFinalName(artifact);
+
+        getLog().debug("Processing: " + targetFileName);
+        File destinationFile = new File(destination, targetFileName);
+        if ("provided".equals(artifact.getScope())
+                        || "test".equals(artifact.getScope())) {
+                getLog().info(
+                                "Skipping " + artifactFile + " Scope "
+                                                + artifact.getScope());
+
+        } else {
+                getLog()
+                                .info("Copy " + artifactFile + " to " + destinationFile);
+                copyFileIfModified(artifact.getFile(), destinationFile);
+        }
+}
+
+}
 
 	private void deployProjectArtifact(File destination, boolean withVersion,
 			boolean deleteStub) throws MojoFailureException, IOException,
