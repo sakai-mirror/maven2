@@ -3,7 +3,7 @@
   <name>Sakai Maven</name>
   <groupId>org.sakaiproject.maven</groupId>
   <artifactId>plugins</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.2.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <scm>
     <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/branches/plugins-1.2.x</connection>
