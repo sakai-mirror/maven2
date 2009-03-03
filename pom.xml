@@ -3,12 +3,12 @@
   <name>Sakai Maven</name>
   <groupId>org.sakaiproject.maven</groupId>
   <artifactId>plugins</artifactId>
-  <version>1.2.0</version>
+  <version>1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <scm>
-    <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/tags/plugins-1.2.0</connection>
-    <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/tags/plugins-1.2.0</developerConnection>
-    <url>https://source.sakaiproject.org/svn/sakai/maven2/tags/plugins-1.2.0</url>
+    <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</connection>
+    <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</developerConnection>
+    <url>https://source.sakaiproject.org/svn/sakai/maven2</url>
   </scm>
   <distributionManagement>
    <repository>
