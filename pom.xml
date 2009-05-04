@@ -12,7 +12,7 @@
   </scm>
   <distributionManagement>
   <snapshotRepository>
-'		<uniqueVersion>false</uniqueVersion>
+		<uniqueVersion>false</uniqueVersion>
 			<id>sakai-maven-snapshots</id>
 			<name>Sakai snapshot Repo</name>
 			<url>http://source.sakaiproject.org/maven2-snapshots</url>
