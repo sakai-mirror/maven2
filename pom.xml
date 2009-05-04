@@ -11,13 +11,20 @@
     <url>https://source.sakaiproject.org/svn/sakai/maven2</url>
   </scm>
   <distributionManagement>
-   <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>local</id>
-      <name>Local</name>
-      <url>file:///tmp/maven2</url>
-      <layout>default</layout>
-    </repository>
+  <snapshotRepository>
+'		<uniqueVersion>false</uniqueVersion>
+			<id>sakai-maven-snapshots</id>
+			<name>Sakai snapshot Repo</name>
+			<url>http://source.sakaiproject.org/maven2-snapshots</url>
+			<layout>default</layout>
+		</snapshotRepository>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>sakai-maven</id>
+			<name>Local Test</name>
+			<url>http://source.sakaiproject.org/maven2</url>
+			<layout>default</layout>
+		</repository>
   </distributionManagement>
 
  <modules>
