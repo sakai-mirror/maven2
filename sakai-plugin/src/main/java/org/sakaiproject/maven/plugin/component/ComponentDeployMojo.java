@@ -224,7 +224,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 				// deploy the contents
 				Properties p = project.getProperties();
 				String deployTarget = p.getProperty("deploy.target");
-				if ("shared".equals(deployTarget)) {
+		       		if ("shared".equals(deployTarget)) {
 					File destinationDir = new File(deployDir, getDeploySubDir("shared/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
@@ -234,6 +234,10 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 					deployArtifacts(artifacts, destinationDir);
 				} else if ("server".equals(deployTarget)) {
 					File destinationDir = new File(deployDir, getDeploySubDir("server/lib"));
+					destinationDir.mkdirs();
+					deployArtifacts(artifacts, destinationDir);
+				} else if ("webbapps".equals(deployTarget)) {
+					File destinationDir = new File(deployDir, getDeploySubDir("webbapps"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else if ( "tomcat-overlay".equals(deployTarget)) {
@@ -250,6 +254,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 					getLog().info(
 							"No deployment specification -- skipping "
 									+ getProjectId());
+
 				}
 			} else {
 				getLog().info(
