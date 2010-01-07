@@ -258,15 +258,15 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 			}
 		} catch (IOException ex) {
 			getLog().debug("Failed to deploy to container ", ex);
-			throw new MojoFailureException("Fialed to deploy to container :"
+			throw new MojoFailureException("Failed to deploy to container :"
 					+ ex.getMessage());
 		} catch (NoSuchArchiverException ex) {
 			getLog().debug("Failed to deploy to container ", ex);
-			throw new MojoFailureException("Fialed to deploy to container :"
+			throw new MojoFailureException("Failed to deploy to container :"
 					+ ex.getMessage());
 		} catch (AbstractArtifactResolutionException ex) {
 			getLog().debug("Failed to deploy to container ", ex);
-			throw new MojoFailureException("Fialed to deploy to container :"
+			throw new MojoFailureException("Failed to deploy to container :"
 					+ ex.getMessage());
 		}
 
