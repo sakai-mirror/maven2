@@ -28,6 +28,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal exploded
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ComponentExplodedMojo
     extends AbstractComponentMojo

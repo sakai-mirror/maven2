@@ -40,6 +40,7 @@ import java.io.PrintWriter;
  * @goal manifest
  * @phase process-resources
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ComponentManifestMojo
     extends AbstractComponentMojo

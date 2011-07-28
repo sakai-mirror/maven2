@@ -40,6 +40,7 @@ import java.io.IOException;
  * @goal component
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ComponentMojo
     extends AbstractComponentMojo

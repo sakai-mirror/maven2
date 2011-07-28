@@ -37,6 +37,7 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
  * 
  * @goal deploy
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ComponentDeployMojo extends AbstractComponentMojo {
 	

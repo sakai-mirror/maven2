@@ -17,6 +17,7 @@ import org.codehaus.plexus.archiver.zip.ZipArchiver;
  * @goal configuration
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ConfigurationMojo
     extends AbstractMojo
