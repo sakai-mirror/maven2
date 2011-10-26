@@ -27,8 +27,13 @@ import org.codehaus.mojo.versions.api.PropertyVersions;
 import org.codehaus.mojo.versions.rewriting.ModifiedPomXMLEventReader;
 
 import javax.xml.stream.XMLStreamException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Sets properties to the latest versions of specific artifacts.
@@ -44,6 +49,11 @@ public class UpdatePropertiesMojo
 {
 
 // ------------------------------ FIELDS ------------------------------
+	
+	/**
+	 * @parameter expression="${propFilePath}"
+	 */
+	private String propFilePath;
 
     /**
      * Any restrictions that apply to specific properties.
@@ -92,6 +102,8 @@ public class UpdatePropertiesMojo
     protected void update( ModifiedPomXMLEventReader pom )
         throws MojoExecutionException, MojoFailureException, XMLStreamException
     {
+    	Properties props = loadPropertiesFile();
+    	
         Map propertyVersions =
             this.getHelper().getVersionPropertiesMap( getProject(), properties, includeProperties, excludeProperties,
                                                       !Boolean.FALSE.equals( autoLinkItems ) );
@@ -108,11 +120,16 @@ public class UpdatePropertiesMojo
                 continue;
             }
 
-            ArtifactVersion winner =
-                version.getNewestVersion( currentVersion, property, this.allowSnapshots, this.reactorProjects,
-                                          this.getHelper() );
+            //ArtifactVersion winner =
+            //    version.getNewestVersion( currentVersion, property, this.allowSnapshots, this.reactorProjects,
+            //                              this.getHelper() );
+            String winner = null;
+            if (props!= null) {
+            	winner = props.getProperty(property.getName());
+            }
+            
 
-            if ( winner == null || currentVersion.equals( winner.toString() ) )
+            if ( winner == null || currentVersion.equals( winner ) )
             {
                 getLog().info( "Property ${" + property.getName() + "}: Leaving unchanged as " + currentVersion );
             }
@@ -123,6 +140,26 @@ public class UpdatePropertiesMojo
             }
 
         }
+    }
+    
+    private Properties loadPropertiesFile() {
+    	getLog().debug("propFilePath: " + propFilePath);
+    	
+    	if (propFilePath != null) {
+    		Properties props = new Properties();
+	    	try {
+		    	File propsFile = new File(propFilePath);
+		    	
+		    	FileInputStream fis = new FileInputStream(propsFile);
+		    	props.load(fis);    
+		    	fis.close();
+	    	}
+	    	catch (IOException e) {
+	    		getLog().error("Unable to load properties file: " + propFilePath, e);
+	    	}
+	    	return props;
+    	}
+    	return null;
     }
 
 }

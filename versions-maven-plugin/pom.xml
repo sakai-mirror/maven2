@@ -27,13 +27,13 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>http://jira.codehaus.org/browse/MVERSIONS</url>
+    <url>https://jira.sakaiproject.org/browse/SMP</url>
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:https://svn.codehaus.org/mojo/tags/versions-maven-plugin-1.2</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/versions-maven-plugin-1.2</developerConnection>
-    <url>http://fisheye.codehaus.org/browse/mojo/tags/versions-maven-plugin-1.2</url>
+    <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk/versions-maven-plugin</connection>
+    <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk/versions-maven-plugin</developerConnection>
+    <url>https://source.sakaiproject.org/svn/maven2/trunk/versions-maven-plugin</url>
   </scm>
   
   <developers>
