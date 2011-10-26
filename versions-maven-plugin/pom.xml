@@ -7,9 +7,9 @@
     <version>24</version>
   </parent>
 
-  <groupId>org.codehaus.mojo</groupId>
+  <groupId>org.sakaiproject.maven.plugins</groupId>
   <artifactId>versions-maven-plugin</artifactId>
-  <version>1.2</version>
+  <version>1.2_SAK</version>
   <packaging>maven-plugin</packaging>
 
   <name>Versions Maven Plugin</name>
