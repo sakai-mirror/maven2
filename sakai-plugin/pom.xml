@@ -3,14 +3,13 @@
   <parent>
       <groupId>org.sakaiproject.maven</groupId>
       <artifactId>plugins</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <version>1.4.0-SNAPSHOT</version>
       <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.sakaiproject.maven.plugins</groupId>
   <artifactId>sakai</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Sakai Component Plugin</name>
-  <version>1.4-SNAPSHOT</version>
   <prerequisites>
     <maven>2.0.10</maven>
   </prerequisites>
