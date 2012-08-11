@@ -9,7 +9,7 @@
     <name>Sakai Maven Plugin</name>
     <groupId>org.sakaiproject.maven</groupId>
     <artifactId>plugins</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -21,9 +21,9 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</connection>
-        <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/trunk</developerConnection>
-        <url>https://source.sakaiproject.org/svn/sakai/maven2</url>
+        <connection>scm:svn:https://source.sakaiproject.org/svn/maven2/tags/plugins-1.4.0</connection>
+        <developerConnection>scm:svn:https://source.sakaiproject.org/svn/maven2/tags/plugins-1.4.0</developerConnection>
+        <url>https://source.sakaiproject.org/svn/sakai/maven2/tags/plugins-1.4.0</url>
     </scm>
 
     <pluginRepositories>
