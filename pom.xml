@@ -9,7 +9,7 @@
     <name>Sakai Maven Plugin</name>
     <groupId>org.sakaiproject.maven</groupId>
     <artifactId>plugins</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -89,6 +89,7 @@
         </repository>
     </repositories>
 
+    <!-- Get distributionManagement from parent
     <distributionManagement>
         <downloadUrl>http://source.sakaiproject.org/maven2/</downloadUrl>
         <snapshotRepository>
@@ -111,6 +112,7 @@
             <url>${url.localsite}</url>
         </site>
     </distributionManagement>
+    -->
     <build>
         <plugins>
             <plugin>
