@@ -89,6 +89,7 @@
         </repository>
     </repositories>
 
+    <!-- Get distributionManagement from parent
     <distributionManagement>
         <downloadUrl>http://source.sakaiproject.org/maven2/</downloadUrl>
         <snapshotRepository>
@@ -111,6 +112,7 @@
             <url>${url.localsite}</url>
         </site>
     </distributionManagement>
+    -->
     <build>
         <plugins>
             <plugin>
