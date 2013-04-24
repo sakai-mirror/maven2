@@ -76,6 +76,7 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 		defaultLocatioMap.setProperty("server/lib", "server/lib/");
 		defaultLocatioMap.setProperty("common/lib", "common/lib/");
 		defaultLocatioMap.setProperty("configuration", "/");
+		defaultLocatioMap.setProperty("endorsed", "endorsed/");
 	}
 
 	public File getDeployDirectory() {
@@ -212,6 +213,9 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 				} else if ("common".equals(deployTarget)) {
 					deployProjectArtifact(new File(deployDir, getDeploySubDir("common/lib")),
 							true, false);
+				} else if ("endorsed".equals(deployTarget)) {
+					deployProjectArtifact(new File(deployDir, getDeploySubDir("endorsed")),
+							true, false);
 				} else if ("server".equals(deployTarget)) {
 					deployProjectArtifact(new File(deployDir, getDeploySubDir("server/lib")),
 							true, false);
@@ -231,6 +235,10 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 					deployArtifacts(artifacts, destinationDir);
 				} else if ("common".equals(deployTarget)) {
 					File destinationDir = new File(deployDir, getDeploySubDir("common/lib"));
+					destinationDir.mkdirs();
+					deployArtifacts(artifacts, destinationDir);
+				} else if ("endorsed".equals(deployTarget)) {
+					File destinationDir = new File(deployDir, getDeploySubDir("endorsed/lib"));
 					destinationDir.mkdirs();
 					deployArtifacts(artifacts, destinationDir);
 				} else if ("server".equals(deployTarget)) {
