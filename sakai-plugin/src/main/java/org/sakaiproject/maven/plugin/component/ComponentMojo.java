@@ -178,7 +178,7 @@ public class ComponentMojo
         warArchiver.setWebxml( new File( getWebappDirectory(), "WEB-INF/web.xml" ) );
 
         // create archive
-        archiver.createArchive( getProject(), archive );
+        archiver.createArchive(null, getProject(), archive );
 
         String classifier = this.classifier;
         if ( classifier != null )

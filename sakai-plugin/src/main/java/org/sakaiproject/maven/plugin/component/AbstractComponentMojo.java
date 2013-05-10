@@ -748,9 +748,6 @@ public abstract class AbstractComponentMojo extends AbstractMojo {
 			unArchiver.setDestDirectory(location);
 			unArchiver.setOverwrite(overwrite);
 			unArchiver.extract();
-		} catch (IOException e) {
-			throw new MojoExecutionException("Error unpacking file: " + file
-					+ "to: " + location, e);
 		} catch (ArchiverException e) {
 			throw new MojoExecutionException("Error unpacking file: " + file
 					+ "to: " + location, e);
