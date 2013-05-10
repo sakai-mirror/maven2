@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ import org.apache.maven.artifact.resolver.AbstractArtifactResolutionException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Generate the exploded webapp
@@ -63,6 +66,13 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	 * @required
 	 */
 	private String deployId = null;
+
+	/**
+	 * Should we cleanup old versions when an artifact is deployed containing a version.
+	 * 
+	 * @parameter expression="${sakai.cleanup}"
+	 */
+	private boolean cleanup = false;
 
 	private Properties locationMap;
 
@@ -105,6 +115,14 @@ public class ComponentDeployMojo extends AbstractComponentMojo {
 	public void setDeployId(String deployId)
 	{
 		this.deployId = deployId;
+	}
+
+	public boolean isCleanup() {
+		return cleanup;
+	}
+
+	public void setCleanup(boolean cleanup) {
+		this.cleanup = cleanup;
 	}
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -415,6 +433,8 @@ for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
 			fileName = getDeployId() + "-" + project.getVersion()
 					+ "." + project.getPackaging();
 			stubName = getDeployId() + "-" + project.getVersion();
+			// This bails out in an exception if there is a problem.
+			handleDuplicates(destination, fileName);
 		} else {
 			fileName = getDeployId() + "." + project.getPackaging();
 			stubName = getDeployId();
@@ -453,7 +473,34 @@ for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
 		if (deleteStub && stubFile.exists()) {
 			deleteAll(stubFile);
 		}
+		
 		copyFileIfModified(artifactFile, destinationFile);
+	}
+
+	/**
+	 * This checks for duplicates that may cause problems.
+	 * @param destination The folder into which we are deploying.
+	 * @param fileName The name of the file we're deploying
+	 */
+	private void handleDuplicates(File destination, String fileName)
+			throws IOException, MojoFailureException {
+		// Check there aren't other versions already deployed.
+		List<File> existing = FileUtils.getFiles(destination, getDeployId()+ "*", fileName, true);
+		if (!existing.isEmpty()) {
+			if (cleanup) {
+				// Remove the files that may cause a problem.
+				for (File file: existing) {
+					if (file.delete()) {
+						getLog().info("Removed: "+ file);
+					} else {
+						throw new MojoFailureException("Could not delete: "+ file);
+					}
+				}
+			} else {
+				throw new MojoFailureException("Existing version(s) of artifact already deployed to "+ destination+
+						" please remove ("+ StringUtils.join(existing.iterator(), ", ")+ ") or specify -Dsakai.cleanup=true");
+			}
+		}
 	}
 
 }
